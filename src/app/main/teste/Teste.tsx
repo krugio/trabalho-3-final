@@ -11,7 +11,8 @@ import Paper from '@mui/material/Paper';
 import { Container } from '@mui/system';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import TesteHeader from './HeaderTeste';
-import { buscaRecados, selectAll } from './store/recadosSlice';
+import { atualizaX, buscaRecados, selectAll } from './store/recadosSlice';
+import axios from 'axios'
 
 const style = {
   position: 'absolute' as const,
@@ -28,12 +29,14 @@ const style = {
 const Teste = () => {
   const [abrirmodal, setAbrirModal] = React.useState(false);
 
+  const[dataX,setDataX] = useState([]);
+
   const [acao, setAcao] = useState('');
   const [id, setId] = useState('');
   const [descricao, setDescricao] = useState('');
   const [recado, setRecado] = useState('');
 
-  const recados = useAppSelector(selectAll);
+  const atuali = useAppSelector((state)=>state.recados.novo);
 
   const dispatch = useAppDispatch();
 
@@ -51,6 +54,26 @@ const Teste = () => {
     console.log(id);
   }
 
+  function pegadados(){
+    const token = localStorage.getItem('jwt_access_token');
+    axios
+      .get(`https://api-tasks-list.herokuapp.com/task/readTasksByUserId?token=${token}`)
+      .then((res) => {
+        console.log('RESPONSE RECEIVED: ', res.data);
+        console.log(res);
+
+      setDataX(res.data.data)
+        
+      
+      })
+      .catch((err) => {
+        console.log('AXIOS ERROR: ', err.message);
+        console.log(err);
+        setResposta(`TENTE NOVAMENTE problema:(${err.response.data.error})`);
+      });
+
+  }
+
   function editar(id: any, dsc: any, recado: any) {
     console.log(id, dsc, recado);
 
@@ -63,8 +86,17 @@ const Teste = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('jwt_access_token');
-    dispatch(buscaRecados(token));
+   
+    pegadados();
   }, []);
+
+
+  useEffect(()=>{
+    pegadados();
+   
+    dispatch(atualizaX(""))
+    
+  },[atuali])
 
   return (
     <div>
@@ -86,8 +118,8 @@ const Teste = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {recados.length !== 0 &&
-                recados.map((row: any, index: any) => (
+              {dataX.length !== 0 &&
+                dataX.map((row: any, index: any) => (
                   <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell component="th" scope="row" align="center">
                       {row.id}

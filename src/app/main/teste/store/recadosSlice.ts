@@ -30,15 +30,13 @@ export const buscaRecados = createAsyncThunk('recados/buscarTodos', async (token
 
 const recadosSlice = createSlice({
   name: 'recados',
-  initialState: adapter.getInitialState(),
-  reducers: {},
-  extraReducers(builder) {
-    builder.addCase(buscaRecados.fulfilled, (state, action) => {
-      action.payload.forEach((value: any) => {
-        adapter.addOne(state, value);
-      });
-    });
+  initialState: adapter.getInitialState({novo:''}),
+  reducers: {
+    atualizaX(state,{payload}) {
+      state.novo = payload
+    }
   },
+  
 });
-
+export const { atualizaX } = recadosSlice.actions
 export default recadosSlice.reducer;

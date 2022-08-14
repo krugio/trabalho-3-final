@@ -5,7 +5,7 @@ import Modal from '@mui/material/Modal';
 import { Button, TextField } from '@mui/material';
 import axios from 'axios';
 import { useAppDispatch } from 'app/store/hooks';
-import { buscaRecados } from './store/recadosSlice';
+import atualiza, { atualizaX }  from './store/recadosSlice';
 
 interface IModal {
   abrir: boolean;
@@ -65,6 +65,8 @@ const TesteHeader: React.FC<IModal> = ({ abrir, fechar, acao, id, des, rec }) =>
       });
 
     handleClose();
+    dispatch(atualizaX("2"))
+   
   };
 
   function editar(idx: any) {
@@ -87,14 +89,18 @@ const TesteHeader: React.FC<IModal> = ({ abrir, fechar, acao, id, des, rec }) =>
       .then((res) => {
         console.log('RESPONSE RECEIVED: ', res.data);
         console.log(res);
+       
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.message);
         console.log(err);
       });
 
+      
+
     handleClose();
-    dispatch(buscaRecados(token));
+    dispatch(atualizaX("2"))
+   
   }
 
   const handleClose = () => {
