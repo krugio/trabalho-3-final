@@ -10,9 +10,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Container } from '@mui/system';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { atualizaX } from './store/recadosSlice';
 import TesteHeader from './HeaderTeste';
-import { atualizaX, buscaRecados, selectAll } from './store/recadosSlice';
-import axios from 'axios'
 
 const style = {
   position: 'absolute' as const,
@@ -29,14 +31,14 @@ const style = {
 const Teste = () => {
   const [abrirmodal, setAbrirModal] = React.useState(false);
 
-  const[dataX,setDataX] = useState([]);
+  const [dataX, setDataX] = useState([]);
 
   const [acao, setAcao] = useState('');
   const [id, setId] = useState('');
   const [descricao, setDescricao] = useState('');
   const [recado, setRecado] = useState('');
 
-  const atuali = useAppSelector((state)=>state.recados.novo);
+  const atuali = useAppSelector((state) => state.recados.novo);
 
   const dispatch = useAppDispatch();
 
@@ -51,10 +53,30 @@ const Teste = () => {
   };
 
   function apagar(id: any) {
-    console.log(id);
+    const MySwal = withReactContent(Swal);
+
+    MySwal.fire({
+      title: `Você realmanete deseja apagar registro?:<br><br>${id}`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Sim',
+      denyButtonText: 'Não',
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+        denyButton: 'order-3',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        MySwal.fire('Registro excluido com sucesso!', '', 'success');
+      } else if (result.isDenied) {
+        MySwal.fire('Registro não foi apagado!', '', 'info');
+      }
+    });
   }
 
-  function pegadados(){
+  function pegadados() {
     const token = localStorage.getItem('jwt_access_token');
     axios
       .get(`https://api-tasks-list.herokuapp.com/task/readTasksByUserId?token=${token}`)
@@ -62,16 +84,13 @@ const Teste = () => {
         console.log('RESPONSE RECEIVED: ', res.data);
         console.log(res);
 
-      setDataX(res.data.data)
-        
-      
+        setDataX(res.data.data);
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.message);
         console.log(err);
         setResposta(`TENTE NOVAMENTE problema:(${err.response.data.error})`);
       });
-
   }
 
   function editar(id: any, dsc: any, recado: any) {
@@ -86,17 +105,15 @@ const Teste = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('jwt_access_token');
-   
+
     pegadados();
   }, []);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     pegadados();
-   
-    dispatch(atualizaX(""))
-    
-  },[atuali])
+
+    dispatch(atualizaX(''));
+  }, [atuali]);
 
   return (
     <div>
