@@ -69,12 +69,29 @@ const Teste = () => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        MySwal.fire('Registro excluido com sucesso!', '', 'success');
+        const token = localStorage.getItem('jwt_access_token');
+        axios
+          .delete(`https://api-tasks-list.herokuapp.com/task/?token=${token}&id=${id}`)
+          .then((res) => {
+            console.log('RESPONSE RECEIVED: ', res.data);
+            console.log(res);
+            MySwal.fire('Registro excluido com sucesso!', '', 'success');
+    
+           
+          })
+          .catch((err) => {
+            console.log('AXIOS ERROR: ', err.message);
+            console.log(err);
+            setResposta(`TENTE NOVAMENTE problema:(${err.response.data.error})`);
+          });
+    
       } else if (result.isDenied) {
         MySwal.fire('Registro não foi apagado!', '', 'info');
       }
     });
   }
+
+  
 
   function pegadados() {
     const token = localStorage.getItem('jwt_access_token');
