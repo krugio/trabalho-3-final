@@ -12,16 +12,18 @@ import { Box } from '@mui/system';
 import { useAppDispatch } from 'app/store/hooks';
 import { userLogin } from 'app/store/userSlice';
 import { login } from '../../../../services/tasks-list-api';
+import Lottie from "lottie-react";
+import start from '../../../../lottie/start.json'
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  email: yup.string().email('You must enter a valid email').required('You must enter a email'),
+  email: yup.string().email('Entre com seu email').required('Digite seu email'),
   password: yup
     .string()
-    .required('Please enter your password.')
-    .min(4, 'Password is too short - must be at least 4 chars.'),
+    .required('Digite sua senha')
+    .min(4, 'Sua senha deve ter no minimo 4 caracteres'),
 });
 
 const defaultValues = {
@@ -133,12 +135,12 @@ function SignIn() {
 
         <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
-            <img className="w-128 mb-20" src="assets/images/logo/logo.png" alt="logo" />
-            <div>Growbase 2.0</div>
-            <div>nosso framework ReactJS</div>
+            {/* <img className="w-128 mb-20" src="assets/images/logo/logo.png" alt="logo" /> */}
+            <Lottie animationData={start} height={200} width={200} />
+            <div>Sistema de Recados Online</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Framework baseado no theme Fuse, alteramos e adaptamos para o uso na Growdev.
+           Nunca mais esqueça nada 
           </div>
         </div>
       </Box>
@@ -146,12 +148,12 @@ function SignIn() {
       <Paper className="h-full sm:h-auto md:flex w-full sm:w-auto md:h-full py-32 px-16 sm:p-48 md:p-64 md:pt-96 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none rtl:border-r-1 ltr:border-l-1">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
           <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
-            Sign in
+            Entre com sua conta
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
-            <Typography>Don't have an account?</Typography>
+            <Typography>Não tem conta ainda?</Typography>
             <Link className="ml-4" to="/sign-up">
-              Sign up
+              Criar Conta
             </Link>
           </div>
 
@@ -207,7 +209,7 @@ function SignIn() {
               type="submit"
               size="large"
             >
-              Sign in
+              ENTRAR
             </Button>
           </form>
         </div>
