@@ -7,14 +7,14 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from '@lodash';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import axios from 'axios';
 import { Alert, IconButton } from '@mui/material';
 import { Container } from '@mui/system';
+import Lottie from 'lottie-react';
+import novo from '../../../../lottie/novo.json';
 
 /**
  * Form Validation Schema
@@ -237,30 +237,12 @@ function SignUp() {
 
         <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
-            <div>Welcome to</div>
-            <div>our community</div>
+            <Lottie animationData={novo} height={400} width={400} />
           </div>
-          <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards full of beautiful and
-            rich modules. Join us and start building your application today.
-          </div>
-          <div className="flex items-center mt-32">
-            <AvatarGroup
-              sx={{
-                '& .MuiAvatar-root': {
-                  borderColor: 'primary.main',
-                },
-              }}
-            >
-              <Avatar src="assets/images/avatars/female-18.jpg" />
-              <Avatar src="assets/images/avatars/female-11.jpg" />
-              <Avatar src="assets/images/avatars/male-09.jpg" />
-              <Avatar src="assets/images/avatars/male-16.jpg" />
-            </AvatarGroup>
-
-            <div className="ml-16 font-medium tracking-tight text-gray-400">
-              More than 17k people joined us, it's your turn
-            </div>
+          <div className="mt-5 text-lg tracking-tight leading-6 text-gray-400">
+            <h2>
+              Crie sua conta agora, e junte-se a milhares de usuários que já usam nosso sistema
+            </h2>
           </div>
         </div>
       </Box>
