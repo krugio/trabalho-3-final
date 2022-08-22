@@ -5,7 +5,7 @@ import Modal from '@mui/material/Modal';
 import { Button, TextField } from '@mui/material';
 import axios from 'axios';
 import { useAppDispatch } from 'app/store/hooks';
-import atualiza, { atualizaX }  from './store/recadosSlice';
+import { atualizaX } from './store/recadosSlice';
 
 interface IModal {
   abrir: boolean;
@@ -34,10 +34,14 @@ const TesteHeader: React.FC<IModal> = ({ abrir, fechar, acao, id, des, rec }) =>
   }, [abrir]);
 
   const [open, setOpen] = React.useState(false);
-  const [descricao, setDescricao] = React.useState('');
-  const [recado, setRecado] = React.useState('');
+  const [descricao, setDescricao] = React.useState<string | undefined>('');
+  const [recado, setRecado] = React.useState<string | undefined>('');
 
   const dispatch = useAppDispatch();
+  React.useEffect(() => {
+    setDescricao(des);
+    setRecado(rec);
+  }, [des, rec]);
 
   const novoRecado = () => {
     const token = localStorage.getItem('jwt_access_token');
@@ -65,8 +69,7 @@ const TesteHeader: React.FC<IModal> = ({ abrir, fechar, acao, id, des, rec }) =>
       });
 
     handleClose();
-    dispatch(atualizaX("2"))
-   
+    dispatch(atualizaX('2'));
   };
 
   function editar(idx: any) {
@@ -89,18 +92,14 @@ const TesteHeader: React.FC<IModal> = ({ abrir, fechar, acao, id, des, rec }) =>
       .then((res) => {
         console.log('RESPONSE RECEIVED: ', res.data);
         console.log(res);
-       
       })
       .catch((err) => {
         console.log('AXIOS ERROR: ', err.message);
         console.log(err);
       });
 
-      
-
     handleClose();
-    dispatch(atualizaX("2"))
-   
+    dispatch(atualizaX('2'));
   }
 
   const handleClose = () => {
@@ -157,7 +156,7 @@ const TesteHeader: React.FC<IModal> = ({ abrir, fechar, acao, id, des, rec }) =>
                 <TextField
                   label="Descrição"
                   id="filled-size-small"
-                  defaultValue={des}
+                  value={descricao}
                   variant="filled"
                   size="small"
                   fullWidth
@@ -166,7 +165,7 @@ const TesteHeader: React.FC<IModal> = ({ abrir, fechar, acao, id, des, rec }) =>
                 <TextField
                   label="Recado"
                   id="filled-size-small"
-                  defaultValue={rec}
+                  value={recado}
                   variant="filled"
                   size="small"
                   sx={{ mt: 2 }}

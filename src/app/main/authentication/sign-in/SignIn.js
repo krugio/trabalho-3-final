@@ -11,9 +11,9 @@ import { useEffect } from 'react';
 import { Box } from '@mui/system';
 import { useAppDispatch } from 'app/store/hooks';
 import { userLogin } from 'app/store/userSlice';
+import Lottie from 'lottie-react';
 import { login } from '../../../../services/tasks-list-api';
-import Lottie from "lottie-react";
-import start from '../../../../lottie/start.json'
+import start from '../../../../lottie/start.json';
 
 /**
  * Form Validation Schema
@@ -45,8 +45,8 @@ function SignIn() {
   const { isValid, dirtyFields, errors } = formState;
 
   useEffect(() => {
-    setValue('email', 'teste10@teste.com', { shouldDirty: true, shouldValidate: true });
-    setValue('password', '1234@', { shouldDirty: true, shouldValidate: true });
+    setValue('email', '', { shouldDirty: true, shouldValidate: true });
+    setValue('password', '', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
   function onSubmit({ email, password }) {
@@ -140,7 +140,7 @@ function SignIn() {
             <div>Sistema de Recados Online</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-           Nunca mais esqueça nada 
+            Nunca mais esqueça nada
           </div>
         </div>
       </Box>

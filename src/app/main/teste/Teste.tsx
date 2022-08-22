@@ -76,22 +76,17 @@ const Teste = () => {
             console.log('RESPONSE RECEIVED: ', res.data);
             console.log(res);
             MySwal.fire('Registro excluido com sucesso!', '', 'success');
-    
-           
           })
           .catch((err) => {
             console.log('AXIOS ERROR: ', err.message);
             console.log(err);
-            setResposta(`TENTE NOVAMENTE problema:(${err.response.data.error})`);
+            MySwal.fire(`${err.message}`, '', 'error');
           });
-    
       } else if (result.isDenied) {
         MySwal.fire('Registro não foi apagado!', '', 'info');
       }
     });
   }
-
-  
 
   function pegadados() {
     const token = localStorage.getItem('jwt_access_token');
